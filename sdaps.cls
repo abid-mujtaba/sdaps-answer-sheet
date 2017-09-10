@@ -1045,6 +1045,10 @@
   \global\def\@sdaps@choicegroup@start{} %
   % This is not really elegant, couldn't we just check whether choicegroup@start
   % is empty?
+  %%% Abid - Edit: Add vertical space between lines of choices
+  % \\[-0.25\baselineskip]
+  \\
+  %%
   \ifnum\thechoicegroupnumchoices>0
     % Move to the next line (as it is not part of the @start macro)
     \\ %

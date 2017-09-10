@@ -24,7 +24,7 @@ show: $(MAIN).pdf
 	touch .refresh
 
 
-$(MAIN).pdf: $(MAIN).tex .refresh $(SOURCES) $(FIGURES)
+$(MAIN).pdf: $(MAIN).tex .refresh $(SOURCES) $(FIGURES) sdaps.cls
 		$(LATEXMK) $(LATEXMKOPT) $(CONTINUOUS) -pdflatex="$(LATEX) $(LATEXOPT) $(NONSTOP) %O %S" $(MAIN)
 
 force:
