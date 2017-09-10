@@ -3,5 +3,9 @@
 *.log
 *.out
 *.sdaps
+*.fls
+*.fdb_latexmk
 
 example.tex
+
+.refresh
