@@ -1,6 +1,7 @@
 \documentclass[english,a4paper,oneside]{sdaps}
 
 \usepackage[utf8]{inputenc}
+\usepackage{adjustbox}      % For vertical alignment of minipages
 
 \author{}
 \title{}
@@ -29,6 +30,7 @@
         \hspace{0.025\linewidth}\begin{minipage}{0.9\linewidth}%
             \begin{itemize}
                 \item Use a pen.
+                \item Use the provided check-boxes to select your session (SP/FA), year, program and roll number.
                 \item For each question select a \textbf{single} answer by placing a check in the relevant box: \hspace{1em}\checkedbox
                 \item If you want to change an answer simply fill out the old/wrong box: \hspace{1em}\correctedbox
             \end{itemize}
@@ -43,11 +45,72 @@
     \begin{questionnaire}[noinfo]       % noinfo - suppresses the info message at the start
 
         %%% Gather Student ID
+        \section{Student Info.}
         % Source: http://sdaps.org/Documentation/Examinations/
 
-         \begin{choicegroup}{Please write your student ID into the $\sqcup$
-      and check the corresponding cross.\\ \textbf{Only check one box in each
-      column.}}
+            \vspace{\baselineskip}
+            Name: \rule{0.5\textwidth}{0.5pt}
+
+            Student ID:
+
+            \hspace{0.1\textwidth}%
+            \adjustbox{valign=t}{%
+            \begin{minipage}[t]{0.1\textwidth}
+                \begin{choicegroup}{}
+                    \groupaddchoice{}
+
+                    \choiceline{BEL}
+                    \choiceline{BPH}
+                \end{choicegroup}
+            \end{minipage}%
+            }%
+            % \hspace{0.05\textwidth}%
+            \adjustbox{valign=t}{%
+            \begin{minipage}{0.05\textwidth}
+                \begin{choicegroup}{}
+                    \groupaddchoice{}
+
+                    \choiceline{SP}
+                    \choiceline{FA}
+                \end{choicegroup}
+            \end{minipage}%
+            }%
+            \hspace{0.05\textwidth}%
+            \adjustbox{valign=t}{%
+            \begin{minipage}{0.03\textwidth}
+                \begin{choicegroup}{}
+                    \groupaddchoice{}
+
+                    \choiceline{\hfill 0}
+                    \choiceline{\hfill 1}
+                    \choiceline{\hfill 2}
+                \end{choicegroup}
+            \end{minipage}%
+            }%
+            \hspace{0.05\textwidth}%
+            \adjustbox{valign=t}{%
+            \begin{minipage}{0.07\textwidth}
+                \begin{choicegroup}{}
+                    \groupaddchoice{}
+
+                    \choiceline{\hfill 0}
+                    \choiceline{\hfill 1}
+                    \choiceline{\hfill 2}
+                    \choiceline{\hfill 3}
+                    \choiceline{\hfill 4}
+                    \choiceline{\hfill 5}
+                    \choiceline{\hfill 6}
+                    \choiceline{\hfill 7}
+                    \choiceline{\hfill 8}
+                    \choiceline{\hfill 9}
+                \end{choicegroup}
+            \end{minipage}%
+            }
+
+         \begin{choicegroup}{}
+    %          {Please write your student ID into the $\sqcup$
+    %   and check the corresponding cross.\\ \textbf{Only check one box in each
+    %   column.}}
             \groupaddchoice{\Huge$\sqcup$}
             \groupaddchoice{\Huge$\sqcup$}
             \groupaddchoice{\Huge$\sqcup$}
