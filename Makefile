@@ -24,7 +24,7 @@ show: $(MAIN).pdf
 	touch .refresh
 
 
-$(MAIN).pdf: $(MAIN).tex .refresh $(SOURCES) $(FIGURES) sdaps.cls
+$(MAIN).pdf: $(MAIN).tex .refresh $(SOURCES) $(FIGURES) ciit-survey.sty sdaps.cls
 		$(LATEXMK) $(LATEXMKOPT) $(CONTINUOUS) -pdflatex="$(LATEX) $(LATEXOPT) $(NONSTOP) %O %S" $(MAIN)
 
 force:
