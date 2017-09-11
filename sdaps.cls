@@ -1047,7 +1047,7 @@
   % is empty?
   %%% Abid - Edit: Add vertical space between lines of choices
   % \\[-0.25\baselineskip]
-  \\
+  %\\
   %%
   \ifnum\thechoicegroupnumchoices>0
     % Move to the next line (as it is not part of the @start macro)
