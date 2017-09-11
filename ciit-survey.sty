@@ -49,4 +49,18 @@
     \begin{center}\rule{0.8\linewidth}{0.5pt}\end{center}
 }
 
+
+% Minipage with content vertically aligned to the top
+\newenvironment{vminipage}[1]%
+    {%
+        \begin{adjustbox}{valign=t}%
+            \begin{minipage}{#1}%
+    }%
+    {%
+            \end{minipage}%
+        \end{adjustbox}%
+    }
+
+% \newenvironment{choicecolumn}{\begin{adjustbox}{valign=t}\begin{minipage}{0.1\textwidth}\begin{choicegroup}{}}{\end{choicegroup}\end{minipage}\end{adjustbox}}
+
 \makeatother
