@@ -1,0 +1,53 @@
+% Utility package for CIIT surveys
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesClass{ciit-survey}[2017/09/11]
+
+\RequirePackage{adjustbox}
+
+\makeatletter
+
+\def\@surveytitle{}
+
+\newcommand{\settitle}[1]{
+        \author{}                       % Suppress author and title so that it doesn't appear on page
+        \title{}
+        \def\@surveytitle{#1}
+}
+
+\newcommand{\makesurveytitle}{
+%
+    % Add CIIT Logo
+    \hspace{7em}\includegraphics[width=0.1\textwidth]{comsats-logo}         % Place the COMSATS logo
+    \vspace{-5\baselineskip}                                    % Since we want the text and the logo to be on the same lines we simply pull back by 5 lines
+
+    % Title
+    \begin{center}
+           {COMSATS Institute of Information Technology,\\
+           Islamabad Campus}
+
+           \vspace{\baselineskip}
+           {\LARGE \bfseries \@surveytitle}\\
+
+    \end{center}
+}
+
+\newcommand{\addsurveyinstructions}{
+%
+    Instructions:
+
+        \vspace{.5\baselineskip}
+        \hspace{0.025\linewidth}\begin{minipage}{0.9\linewidth}%
+            \begin{itemize}
+                \item Use a pen.
+                \item Use the provided check-boxes to select your session (SP/FA), year, program and roll number.
+                \item For each question select a \textbf{single} answer by placing a check in the relevant box: \hspace{1em}\checkedbox
+                \item If you want to change an answer simply fill out the old/wrong box: \hspace{1em}\correctedbox
+            \end{itemize}
+        \end{minipage}
+
+    \vspace{-0.5\baselineskip}
+    \begin{center}\rule{0.8\linewidth}{0.5pt}\end{center}
+}
+
+\makeatother
