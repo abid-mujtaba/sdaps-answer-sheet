@@ -47,5 +47,12 @@ once:
 debug:
 		$(LATEX) $(LATEXOPT) $(MAIN)
 
+# SDAPS targets
+
+setup:
+	rm -rf survey/
+	sdaps survey setup_tex --add ciit-survey.sty --add comsats-logo.pdf answer-sheet.tex
+#	# ciit-survey.sty and comsats-logo.pdf need to be added explicitly to survey/ for the compilation to work
+
 .PHONY: clean force once all show
 # Source: https://drewsilcock.co.uk/using-make-and-latexmk
