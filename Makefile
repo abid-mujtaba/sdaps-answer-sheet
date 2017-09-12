@@ -4,13 +4,15 @@ NONSTOP=--interaction=nonstopmode
 
 LATEXMK=latexmk
 LATEXMKOPT=-pdf
-#CONTINUOUS=-pvc		# Used to update pdf in viewer
 CONTINUOUS=
 
 
 MAIN=answer-sheet
 SOURCES=$(MAIN).tex Makefile
-FIGURES := $(shell find data/*.pdf diag/*.pdf -type f)
+FIGURES := #$(shell find data/*.pdf diag/*.pdf -type f)
+
+# Declare the folder where the sdaps will create questionnaire and store the results
+SURVEY=survey
 
 
 all: show
@@ -50,9 +52,38 @@ debug:
 # SDAPS targets
 
 setup:
-	rm -rf survey/
-	sdaps survey setup_tex --add ciit-survey.sty --add comsats-logo.pdf answer-sheet.tex
+	rm -rf $(SURVEY)/
+	sdaps $(SURVEY) setup_tex --add ciit-survey.sty --add comsats-logo.pdf answer-sheet.tex
 #	# ciit-survey.sty and comsats-logo.pdf need to be added explicitly to survey/ for the compilation to work
 
-.PHONY: clean force once all show
+# Convert scanned pdf to black-and-white monochrome tiff file for sdaps processing
+convert:
+	gs -sDEVICE=tiffg4 -dBATCH -dNOPAUSE -r600 -sOutputFile="scan.tif" scan.pdf
+
+# Add the scanned and converted image to sdaps for processing
+add:
+	sdaps $(SURVEY) add scan.tif
+
+
+# Perform OMR on the added data
+recognize:
+	sdaps $(SURVEY) recognize
+
+
+# Run SDAPS gui to make manual corrections
+gui:
+	sdaps $(SURVEY) gui
+
+
+# Generate report
+report:
+	sdaps $(SURVEY) report
+
+
+# Generate csv file of recognized data
+csv:
+	sdaps $(SURVEY) csv export
+
+
+.PHONY: clean force once all show setup convert add recognize gui report csv
 # Source: https://drewsilcock.co.uk/using-make-and-latexmk
