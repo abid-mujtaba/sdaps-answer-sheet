@@ -1,4 +1,4 @@
-\documentclass[english,a4paper,oneside]{sdaps}
+\documentclass[english,a4paper,oneside,print_questionnaire_id]{sdaps}
 
 \usepackage[utf8]{inputenc}
 \usepackage{ciit-survey}
@@ -7,10 +7,10 @@
 
 \begin{document}
 
-    \makesurveytitle
-    \addsurveyinstructions
-
     \begin{questionnaire}[noinfo]       % noinfo - suppresses the info message at the start
+
+		\makesurveytitle
+		\addsurveyinstructions
 
         %%% Gather Student ID
         \section{Student Info.}

@@ -56,6 +56,11 @@ setup:
 	sdaps $(SURVEY) setup_tex --add ciit-survey.sty --add comsats-logo.pdf answer-sheet.tex
 #	# ciit-survey.sty and comsats-logo.pdf need to be added explicitly to survey/ for the compilation to work
 
+
+# Create questionnaires with the specified Questionnaire IDs (in ids.txt)
+questionnires:
+	sdaps $(SURVEY) stamp -f ids.txt
+
 # Convert scanned pdf to black-and-white monochrome tiff file for sdaps processing
 convert:
 	gs -sDEVICE=tiffg4 -dBATCH -dNOPAUSE -r600 -sOutputFile="scan.tif" scan.pdf
