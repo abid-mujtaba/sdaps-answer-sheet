@@ -14,6 +14,9 @@ FIGURES := #$(shell find data/*.pdf diag/*.pdf -type f)
 # Declare the folder where the sdaps will create questionnaire and store the results
 SURVEY=survey
 
+# Declar the sdaps binary to use
+SDAPS=sdaps
+
 
 all: show
 
@@ -53,13 +56,13 @@ debug:
 
 setup:
 	rm -rf $(SURVEY)/
-	sdaps $(SURVEY) setup_tex --add ciit-survey.sty --add comsats-logo.pdf answer-sheet.tex
+	$(SDAPS) $(SURVEY) setup_tex --add ciit-survey.sty --add comsats-logo.pdf answer-sheet.tex
 #	# ciit-survey.sty and comsats-logo.pdf need to be added explicitly to survey/ for the compilation to work
 
 
 # Create questionnaires with the specified Questionnaire IDs (in ids.txt)
 questionnires:
-	sdaps $(SURVEY) stamp -f ids.txt
+	$(SDAPS) $(SURVEY) stamp -f ids.txt
 
 # Convert scanned pdf to black-and-white monochrome tiff file for sdaps processing
 convert:
@@ -67,27 +70,27 @@ convert:
 
 # Add the scanned and converted image to sdaps for processing
 add:
-	sdaps $(SURVEY) add scan.tif
+	$(SDAPS) $(SURVEY) add scan.tif
 
 
 # Perform OMR on the added data
 recognize:
-	sdaps $(SURVEY) recognize
+	$(SDAPS) $(SURVEY) recognize
 
 
 # Run SDAPS gui to make manual corrections
 gui:
-	sdaps $(SURVEY) gui
+	$(SDAPS) $(SURVEY) gui
 
 
 # Generate report
 report:
-	sdaps $(SURVEY) report
+	$(SDAPS) $(SURVEY) report
 
 
 # Generate csv file of recognized data
 csv:
-	sdaps $(SURVEY) csv export
+	$(SDAPS) $(SURVEY) csv export
 
 
 .PHONY: clean force once all show setup convert add recognize gui report csv
