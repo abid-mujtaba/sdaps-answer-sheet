@@ -68,6 +68,11 @@ questionnires:
 convert:
 	gs -sDEVICE=tiffg4 -dBATCH -dNOPAUSE -r600 -sOutputFile="scan.tif" scan.pdf
 
+# Refresh the inner 'survey' file which basically removes ALL added and recognized pages
+# Requires that survey/survey be copied to survey/survey.fresh IMMEDIATELY after the 'setup' step (fresh state)
+refresh:
+	cp survey/survey.fresh survey/survey
+
 # Add the scanned and converted image to sdaps for processing
 add:
 	$(SDAPS) $(SURVEY) add scan.tif
