@@ -15,7 +15,8 @@ FIGURES := #$(shell find data/*.pdf diag/*.pdf -type f)
 SURVEY=survey
 
 # Declar the sdaps binary to use
-SDAPS=sdaps
+# SDAPS=sdaps
+SDAPS=~/applications/sdaps-1.2.1/sdaps.py
 
 
 all: show
@@ -80,7 +81,7 @@ add:
 
 # Perform OMR on the added data
 recognize:
-	$(SDAPS) $(SURVEY) recognize
+	$(SDAPS) $(SURVEY) recognize -r
 
 
 # Run SDAPS gui to make manual corrections
