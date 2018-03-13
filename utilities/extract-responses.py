@@ -153,7 +153,7 @@ class Row:
 		semester = self.extract_semester()
 		year = self.extract_year()
 
-		D['rid'] = "BCS-{0}{1}-{2}".format(semester, '', '')
+		D['rid'] = "BCS-{0}{1}-{2}".format(semester, year, 'XXX')
 
 		self.D = D
 
@@ -181,9 +181,34 @@ class Row:
 		"""
 
 		row = self.row
+		year = ''
 
-		# TODO Implement another class which allows a single value to be pushed (multiple pushes, without popping is an exception) and popped
-		# Use this to traverse items which allow only a single value
+		S = Single()
+
+		try:
+			for i in range(1,4):
+
+				if row["1_3_{}_0".format(i)]:
+					
+					S.push(i - 1)
+
+			year += str(S.pop())			# Return the value stored (at one point) in the above loop
+
+			for i in range(1,11):
+
+				if row["1_4_{}_0".format(i)]:
+
+					S.push(i - 1)
+
+			year += str(S.pop())
+
+		except S.PushException:
+			raise ValidationError("Multiple checked boxes in Year Entry in row {}".format(self.id))
+
+		except S.PopException:
+			raise ValidationError("Missing checked boxes in Year Entry in row {}".format(self.id))
+
+		return year
 
 
 
