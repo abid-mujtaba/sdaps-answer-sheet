@@ -82,14 +82,14 @@ class Single:
 
 	def push(self, value):
 
-		if self.value:
+		if self.value is not None:						# Pushing with a value already present
 			raise self.PushException(self.prefix)
 
 		self.value = value
 
 	def pop(self):
 
-		if not self.value:
+		if self.value is None:							# Popping when NO value is present
 			raise self.PopException(self.prefix)
 
 		out = self.value
@@ -217,10 +217,10 @@ class Row:
 			year += str(S.pop())
 
 		except S.PushException as e:
-			raise ValidationError("Multiple checked boxes in Year Entry in row {} prefix {}".format(self.id, e))
+			raise ValidationError("Multiple checked boxes in Year Entry in row {} (prefix {})".format(self.id, e))
 
 		except S.PopException as e:
-			raise ValidationError("Missing checked boxes in Year Entry in row {} prefix {}".format(self.id, e))
+			raise ValidationError("Missing checked boxes in Year Entry in row {} (prefix {})".format(self.id, e))
 
 		return year
 
