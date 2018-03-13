@@ -1,0 +1,2 @@
+-	Place blank line for entering registration ID by hand so that the entries can be verified (with hyphens separating them).
+-	Move the ten digits to the LHS and then simply have vertical squares both both year digits and three roll number digits with hyphen between the columns (no repeated digit labels) to consolidate the entries).
