@@ -45,11 +45,7 @@ def main(raw_file, out_file, qid_file=None):
 					
 					R = Row(count, row, Q)
 
-					lten = [x for x in range(10)]		# List of the first ten digits
-
-					# Construct Student Registration ID
-					year = 10 * extract_single(count, row, '1_3', [0,1,2])
-					year += extract_single(count, row, '1_4', lten)
+					print(R.dict())
 
 					# Write extracted dictionary to output csv file
 					writer.writerow(R.dict())
@@ -57,7 +53,6 @@ def main(raw_file, out_file, qid_file=None):
 				except ValidationError as e:
 					print("ValidationError: " + str(e))
 
-				print(R.dict())
 				# TODO Remove to iterate over all rows
 				# break
 
@@ -78,17 +73,24 @@ class Single:
 
 	value = None
 
+	def __init__(self, prefix):
+		"""
+		Store the prefix of the object being traversed to help in debugging exceptions.
+		"""
+		self.prefix = prefix
+
+
 	def push(self, value):
 
 		if self.value:
-			raise self.PushException()
+			raise self.PushException(self.prefix)
 
 		self.value = value
 
 	def pop(self):
 
 		if not self.value:
-			raise self.PopException()
+			raise self.PopException(self.prefix)
 
 		out = self.value
 		self.value = None		# Empty out the held value since we have popped the value
@@ -191,9 +193,10 @@ class Row:
 		row = self.row
 		year = ''
 
-		S = Single()
 
 		try:
+			S = Single("1_3")
+
 			for i in range_1(3):
 
 				if row["1_3_{}_0".format(i)]:
@@ -201,6 +204,9 @@ class Row:
 					S.push(i - 1)
 
 			year += str(S.pop())			# Return the value stored (at one point) in the above loop
+
+
+			S = Single("1_4")
 
 			for i in range_1(10):
 
@@ -210,11 +216,11 @@ class Row:
 
 			year += str(S.pop())
 
-		except S.PushException:
-			raise ValidationError("Multiple checked boxes in Year Entry in row {}".format(self.id))
+		except S.PushException as e:
+			raise ValidationError("Multiple checked boxes in Year Entry in row {} prefix {}".format(self.id, e))
 
-		except S.PopException:
-			raise ValidationError("Missing checked boxes in Year Entry in row {}".format(self.id))
+		except S.PopException as e:
+			raise ValidationError("Missing checked boxes in Year Entry in row {} prefix {}".format(self.id, e))
 
 		return year
 
