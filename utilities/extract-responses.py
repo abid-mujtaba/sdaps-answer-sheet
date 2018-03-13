@@ -59,7 +59,15 @@ def main(raw_file, out_file, qid_file=None):
 
 				print(R.dict())
 				# TODO Remove to iterate over all rows
-				break
+				# break
+
+
+def range_1(n):
+	"""
+	Create a range object that starts at 1 and runs up to (and including) 'n'
+	"""
+	return range(1, n + 1)
+
 
 class Single:
 	"""
@@ -186,7 +194,7 @@ class Row:
 		S = Single()
 
 		try:
-			for i in range(1,4):
+			for i in range_1(3):
 
 				if row["1_3_{}_0".format(i)]:
 					
@@ -194,7 +202,7 @@ class Row:
 
 			year += str(S.pop())			# Return the value stored (at one point) in the above loop
 
-			for i in range(1,11):
+			for i in range_1(10):
 
 				if row["1_4_{}_0".format(i)]:
 
