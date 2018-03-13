@@ -61,6 +61,44 @@ def main(raw_file, out_file, qid_file=None):
 				# TODO Remove to iterate over all rows
 				break
 
+class Single:
+	"""
+	A data structure that is allowed to store only a single value (multiple pushes without intermediate pops are errors).
+
+	It is intended for use in situations where the expected behaviour that ONLY ONE of a number of options is set.
+	"""
+
+	value = None
+
+	def push(self, value):
+
+		if self.value:
+			raise self.PushException()
+
+		self.value = value
+
+	def pop(self):
+
+		if not self.value:
+			raise self.PopException()
+
+		out = self.value
+		self.value = None		# Empty out the held value since we have popped the value
+
+		return out
+
+	class PushException(Exception):
+		"""
+		Raised when push() is called with a value already present, not allowed in the 'Single' data structure by definition.
+		"""
+		pass
+	
+	class PopException(Exception):
+		"""
+		Raised when pop() is called with no value stored.
+		"""
+		pass
+
 
 class Row:
 	"""
