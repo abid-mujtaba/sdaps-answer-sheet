@@ -225,53 +225,6 @@ class Row:
 		return year
 
 
-
-def extract_single(id, row, prefix, entries, checkZero = True):
-	"""
-	Extract an entry which appears singly in answer-sheet.tex (such as BEL/BPH or SP/FA).
-	"""
-	return extract(id, row, prefix, entries, checkZero, True)
-
-
-def extract_group(id, row, prefix, entries, checkZero = True):
-	"""
-	Extract an entry which appears in a group such as A/B/C/D/E.
-	"""
-	return extract(id, row, prefix, entries, checkZero, False)
-
-
-def extract(id, row, prefix, entries, checkZero = True, single = False):
-	"""
-	Extract the passed in row dictionary to check that at most one entry is filled.
-	If checkZero is set we also confirm that at least one entry is filled.
-	The prefix provides the common starting string of the entries (the remainder is generated based on the length of the list 'entries').
-
-	The list entries maps the index to the actual value represented by the box e.g. 1/2 -> FA/SP
-	"""
-
-	fmt_str = "{prefix}_{index}_0" if single else "{prefix}_{index}"
-
-	count = 0
-	result = None
-
-	for i in range(1, len(entries) + 1):
-
-		# Construct the dictionary key to access the value in the dictionary
-		key = fmt_str.format(prefix=prefix, index=i)
-
-		if int(row[key]) != 0:
-			count += 1
-			result = entries[i - 1]
-	
-	if count > 1:
-		raise ValidationError("More than one box is checked in Q. {prefix} in row {id}".format(id=id, prefix=prefix))
-
-	if checkZero and count == 0:
-		raise ValidationError("No box is checked in Q. {prefix} in row {id}".format(id=id, prefix=prefix))
-
-	return result
-
-
 class ValidationError(Exception):
 	pass
 			
