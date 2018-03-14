@@ -162,8 +162,9 @@ class Row:
 
 		semester = self.extract_semester()
 		year = self.extract_year()
+		roll = self.extract_roll()
 
-		D['rid'] = "BCS-{0}{1}-{2}".format(semester, year, 'XXX')
+		D['rid'] = "BCS-{0}{1}-{2}".format(semester, year, roll)
 
 		self.D = D
 
@@ -193,7 +194,6 @@ class Row:
 		row = self.row
 		year = ''
 
-
 		try:
 			S = Single("1_3")
 
@@ -201,7 +201,7 @@ class Row:
 
 				if row["1_3_{}_0".format(i)]:
 					
-					S.push(i - 1)
+					S.push(str(i - 1))
 
 			year += str(S.pop())			# Return the value stored (at one point) in the above loop
 
@@ -212,9 +212,11 @@ class Row:
 
 				if row["1_4_{}_0".format(i)]:
 
-					S.push(i - 1)
+					S.push(str(i - 1))
 
-			year += str(S.pop())
+			year += S.pop()
+
+			return year
 
 		except S.PushException as e:
 			raise ValidationError("Multiple checked boxes in Year Entry in row {} (prefix {})".format(self.id, e))
@@ -222,7 +224,35 @@ class Row:
 		except S.PopException as e:
 			raise ValidationError("Missing checked boxes in Year Entry in row {} (prefix {})".format(self.id, e))
 
-		return year
+
+	def extract_roll(self):
+		"""
+		Extract the 3-digit roll number from the data.
+		"""
+
+		row = self.row
+		roll = ''
+
+		try:
+			for i in range(3):
+
+				S = Single("1_5_X_{}".format(i))
+
+				for j in range_1(10):
+
+					if row["1_5_{1}_{0}".format(i,j)]:
+
+						S.push(str(j - 1))
+
+				roll += S.pop()
+
+			return roll
+
+		except Single.PopException as e:
+			raise ValidationError("Multiple checked boxes in Roll Number entry in row {0} (prefix {1})".format(self.id, e)) 
+
+		except Single.PushException as e:
+			raise ValidationError("Missing checked box in Roll Number entry in row {0} (prefix {1})".format(self.id, e)) 
 
 
 class ValidationError(Exception):
