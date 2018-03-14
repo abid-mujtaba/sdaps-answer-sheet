@@ -26,6 +26,10 @@ def main(raw_file, out_file, qid_file=None):
 	with open(out_file, 'w', newline='') as fout:
 		
 		fieldnames = ['id', 'qid', 'rid']
+
+		for i in range_1(30):				# Add fields for the 30 questions	
+			fieldnames.append(i)
+
 		count = 0
 
 		writer = csv.DictWriter(fout, fieldnames=fieldnames)
@@ -45,16 +49,11 @@ def main(raw_file, out_file, qid_file=None):
 					
 					R = Row(count, row, Q)
 
-					print(R.dict())
-
 					# Write extracted dictionary to output csv file
 					writer.writerow(R.dict())
 				
 				except ValidationError as e:
 					print("ValidationError: " + str(e))
-
-				# TODO Remove to iterate over all rows
-				# break
 
 
 def range_1(n):
@@ -166,6 +165,10 @@ class Row:
 
 		D['rid'] = "BCS-{0}{1}-{2}".format(semester, year, roll)
 
+		for i in range_1(30):
+
+			D[i] = self.extract_answer(i)
+
 		self.D = D
 
 
@@ -248,11 +251,44 @@ class Row:
 
 			return roll
 
-		except Single.PopException as e:
+		except Single.PushException as e:
 			raise ValidationError("Multiple checked boxes in Roll Number entry in row {0} (prefix {1})".format(self.id, e)) 
 
-		except Single.PushException as e:
+		except Single.PopException as e:
 			raise ValidationError("Missing checked box in Roll Number entry in row {0} (prefix {1})".format(self.id, e)) 
+
+
+	def extract_answer(self, num):
+		"""
+		Extract the answer to question 'num'
+		"""
+
+		row = self.row
+
+		# The answers are split in to two columns of 15 questions each so we figure out the column and position within the column for the specified question
+		if num > 15:
+			pre = 2
+			num -= 15
+		else:
+			pre = 1
+
+		S = Single("2_{0}_{1}_X".format(pre, num))
+
+		try:
+			for i in range(5):
+
+				if row["2_{0}_{1}_{2}".format(pre, num, i)]:
+
+					S.push("ABCDE"[i])
+
+			return S.pop()
+
+		except S.PushException as e:
+			raise ValidationError("Multiple checked boxes in row {0} question {1}".format(self.id, num))
+
+		except S.PopException as e:			# This means that no entry was marked so the question is unanswered
+			return None
+				
 
 
 class ValidationError(Exception):
