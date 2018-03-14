@@ -25,10 +25,12 @@ def main(raw_file, out_file, qid_file=None):
 
 	with open(out_file, 'w', newline='') as fout:
 		
-		fieldnames = ['id', 'qid', 'rid']
+		fieldnames = ['id', 'rid', 'qid']
 
 		for i in range_1(30):				# Add fields for the 30 questions	
 			fieldnames.append(i)
+
+		fieldnames += ['s1', 's2']
 
 		count = 0
 
@@ -169,6 +171,9 @@ class Row:
 
 			D[i] = self.extract_answer(i)
 
+		D['s1'] = self.extract_survey(1)
+		D['s2'] = self.extract_survey(2)
+
 		self.D = D
 
 
@@ -288,7 +293,31 @@ class Row:
 
 		except S.PopException as e:			# This means that no entry was marked so the question is unanswered
 			return None
-				
+	
+
+	def extract_survey(self, num):
+		"""
+		Extract answer to survey question 'num'
+		"""
+
+		row = self.row
+
+		S = Single("3_1_{0}_X".format(num))
+
+		try:
+			for i in range(5):
+
+				if row["3_1_{0}_{1}".format(num, i)]:
+
+					S.push(i + 1)
+
+			return S.pop()
+
+		except S.PushException as e:
+			raise ValidationError("Multiple checked boxes in row {0} survey question {1}".format(self.id, num))
+
+		except S.PopException as e:
+			raise ValidationError("Missing checked box in row {0} survey question {1}".format(self.id, num))
 
 
 class ValidationError(Exception):
