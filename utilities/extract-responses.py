@@ -269,20 +269,21 @@ class Row:
 		"""
 
 		row = self.row
+		index = num
 
 		# The answers are split in to two columns of 15 questions each so we figure out the column and position within the column for the specified question
 		if num > 15:
 			pre = 2
-			num -= 15
+			index = num - 15
 		else:
 			pre = 1
 
-		S = Single("2_{0}_{1}_X".format(pre, num))
+		S = Single("2_{0}_{1}_X".format(pre, index))
 
 		try:
 			for i in range(5):
 
-				if row["2_{0}_{1}_{2}".format(pre, num, i)]:
+				if row["2_{0}_{1}_{2}".format(pre, index, i)]:
 
 					S.push("ABCDE"[i])
 
