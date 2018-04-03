@@ -151,7 +151,7 @@ class Row:
 				D['qid'] = Q[self.id]
 
 			else:
-				raise ValidationError("Questionnaire ID is missing for row {}".format(count))
+				raise ValidationError("Questionnaire ID is missing for row {}".format(self.id))
 
 		# Now we pop the first two entries (questionnaire and global id)
 		row.popitem(last=False)
