@@ -13,3 +13,5 @@ example.tex
 
 survey/
 *.tif
+
+data/.Rhistory
