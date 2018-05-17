@@ -16,7 +16,8 @@ SURVEY=survey
 
 # Declar the sdaps binary to use
 # SDAPS=sdaps
-SDAPS=~/applications/sdaps-1.2.1/sdaps.py
+# SDAPS=~/applications/sdaps-1.2.1/sdaps.py
+SDAPS=~/builds/sdaps-1.2.1/sdaps.py
 
 
 # The file to be added or converted
